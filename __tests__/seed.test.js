@@ -213,7 +213,7 @@ describe('seed', () => {
         )
         .then(({ rows: [column] }) => {
           expect(column.column_name).toBe('title');
-          expect(column.data_type).toEqual('character varying');
+          expect(column.data_type).toBe('character varying');
         });
     });
 
