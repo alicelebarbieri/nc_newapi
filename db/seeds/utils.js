@@ -16,3 +16,16 @@ articlesData.forEach((article) => {
 
 return result;
 };
+
+exports.formatComments = (commentsData, articleRef) => {
+  return commentsData.map((comment) => {
+    const formattedComment = {
+      body: comment.body,
+      votes: comment.votes,
+      author: comment.created_by,
+      article_id: articleRef[comment.belongs_to],
+      created_at: new Date(comment.created_at),
+    };
+    return formattedComment;
+  });
+};
