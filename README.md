@@ -5,7 +5,6 @@ This project requires environment variables that are not included in the reposit
 You must create two files in the root directory of the project:
 
 .env.development – for connecting to the development database
-
 .env.test – for connecting to the test database
 
 Note: These files are not pushed to GitHub, so you will need to set them up manually.
@@ -42,3 +41,4 @@ Copy
 npm run seed-dev
 This will run the seed script using the development data and confirm a connection to nc_news.
 
+To create a 
