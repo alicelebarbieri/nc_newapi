@@ -1,4 +1,3 @@
-
 const { selectTopics } = require("../models/topics.model");
 
 exports.getTopics = (req, res, next) => {
@@ -6,5 +5,5 @@ exports.getTopics = (req, res, next) => {
     .then((topics) => {
       res.status(200).send({ topics });
     })
-    .catch(next); 
+    .catch(next);
 };
