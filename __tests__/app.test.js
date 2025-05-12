@@ -1,4 +1,6 @@
 const endpointsJson = require("../endpoints.json");
+const seed = require("../db/seeds/seed");
+beforeEach(() => seed());
 /* Set up your test imports here */
 
 /* Set up your beforeEach & afterAll functions here */

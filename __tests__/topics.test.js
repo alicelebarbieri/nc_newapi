@@ -1,7 +1,8 @@
 const request = require("supertest");
 const app = require("../app.js");
 const db = require("../db/connection");
-
+const seed = require("../db/seeds/seed");
+beforeEach(() => seed());
 
 describe("GET /api/topics", () => {
   test("200: responds with an array of topic objects", () => {
