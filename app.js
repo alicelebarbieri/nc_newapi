@@ -3,12 +3,14 @@ const app = express();
 
 const apiRouter    = require("./routes/api.router");
 const topicsRouter = require("./routes/topics.router");
+const articlesRouter = require("./routes/articles.router");
 
 app.use(express.json());
 
 // mount your routers
 app.use("/api", apiRouter);
 app.use("/api/topics", topicsRouter);
+app.use("/api/articles", articlesRouter);
 
 // catch-all for any /api routes not handled above
 app.use("/api", (req, res) => {

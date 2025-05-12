@@ -23,5 +23,25 @@
         }
       ]
     }
+  },
+  "GET /api/articles/:article_id": {
+    "description": "serves a single article object by its id",
+    "parameters": {
+      "path": {
+        "article_id": "integer"
+      }
+    },
+    "exampleResponse": {
+      "article": {
+        "author": "butter_bridge",
+        "title": "Living in the shadow of a great man",
+        "article_id": 1,
+        "body": "I find this existence challenging",
+        "topic": "coding",
+        "created_at": "2020-11-07T07:44:00.000Z",
+        "votes": 100,
+        "article_img_url": "https://example.com/img.png"
+      }
+    }
   }
 }
