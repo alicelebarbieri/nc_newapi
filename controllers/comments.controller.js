@@ -1,4 +1,4 @@
-const { checkArticleExists, selectCommentsByArticleId, insertComment } = require("../models/comments.model");
+const { checkArticleExists, selectCommentsByArticleId, insertComment, deleteCommentById } = require("../models/comments.model");
 
 exports.getCommentsByArticleId = (req, res, next) => {
   const { article_id } = req.params;
@@ -24,6 +24,19 @@ exports.postCommentByArticleId = (req, res, next) => {
     .then((comment) => res.status(201).send({ comment }))
     .catch((err) => {
       if (err.code === "23503") return res.status(404).send({ msg: "Article or user not found" });
+      next(err);
+    });
+};
+
+exports.removeCommentById = (req, res, next) => {
+  const { comment_id } = req.params;
+
+  if (isNaN(comment_id)) return res.status(400).send({ msg: "Bad request" });
+
+  deleteCommentById(comment_id)
+    .then(() => res.status(204).send())
+    .catch((err) => {
+      if (err.status) return res.status(err.status).send({ msg: err.msg });
       next(err);
     });
 };

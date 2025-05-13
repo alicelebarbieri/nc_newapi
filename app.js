@@ -13,6 +13,7 @@ app.use("/api", apiRouter);
 app.use("/api/topics", topicsRouter);
 app.use("/api/articles", articlesRouter);
 app.use("/api/articles/:article_id/comments", commentsRouter);
+app.use("/api/comments", commentsRouter);
 
 // catch-all for any /api routes not handled above
 app.use("/api", (req, res) => {
