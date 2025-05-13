@@ -31,3 +31,40 @@ exports.selectAllArticles = () => {
       )
       .then(({ rows }) => rows);
   };
+
+  exports.updateArticleVotesById = (article_id, inc_votes) => {
+    if (isNaN(article_id) || typeof inc_votes !== "number") {
+      return Promise.reject({ status: 400, msg: "Bad request" });
+    }
+  
+    return db
+      .query(
+        `UPDATE articles
+         SET votes = votes + $1
+         WHERE article_id = $2
+         RETURNING *;`,
+        [inc_votes, article_id]
+      )
+      .then(({ rows }) => {
+        if (rows.length === 0) {
+          return Promise.reject({ status: 404, msg: "Article not found" });
+        }
+        return rows[0];
+      });
+  };
+
+  exports.updateArticleVotes = async (article_id, inc_votes) => {
+    const { rows } = await db.query(
+      `UPDATE articles
+       SET votes = votes + $1
+       WHERE article_id = $2
+       RETURNING *;`,
+      [inc_votes, article_id]
+    );
+  
+    if (rows.length === 0) {
+      return Promise.reject({ status: 404, msg: "Article not found" });
+    }
+  
+    return rows[0];
+  };
