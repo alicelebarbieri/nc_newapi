@@ -1,4 +1,4 @@
-const { checkArticleExists, selectCommentsByArticleId } = require("../models/comments.model");
+const { checkArticleExists, selectCommentsByArticleId, insertComment } = require("../models/comments.model");
 
 exports.getCommentsByArticleId = (req, res, next) => {
   const { article_id } = req.params;
@@ -10,6 +10,20 @@ exports.getCommentsByArticleId = (req, res, next) => {
     .then((comments) => res.status(200).send({ comments }))
     .catch((err) => {
       if (err.status) return res.status(err.status).send({ msg: err.msg });
+      next(err);
+    });
+};
+
+exports.postCommentByArticleId = (req, res, next) => {
+  const { article_id } = req.params;
+  const { username, body } = req.body;
+
+  if (!username || !body) return res.status(400).send({ msg: "Bad request" });
+
+  insertComment(article_id, username, body)
+    .then((comment) => res.status(201).send({ comment }))
+    .catch((err) => {
+      if (err.code === "23503") return res.status(404).send({ msg: "Article or user not found" });
       next(err);
     });
 };

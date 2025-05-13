@@ -21,6 +21,12 @@ app.use("/api", (req, res) => {
 
 // error handler
 app.use((err, req, res, next) => {
+  if (err.status && err.msg) {
+    return res.status(err.status).send({ msg: err.msg });
+  }
+  if (err.code === "22P02") {
+    return res.status(400).send({ msg: "Bad request" });
+  }
   console.error(err);
   res.status(500).send({ msg: "Internal server error" });
 });
