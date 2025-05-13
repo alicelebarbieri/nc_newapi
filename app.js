@@ -5,6 +5,7 @@ const apiRouter    = require("./routes/api.router");
 const topicsRouter = require("./routes/topics.router");
 const articlesRouter = require("./routes/articles.router");
 const commentsRouter = require("./routes/comments.router");
+const usersRouter = require("./routes/users.router");
 
 app.use(express.json());
 
@@ -14,6 +15,7 @@ app.use("/api/topics", topicsRouter);
 app.use("/api/articles", articlesRouter);
 app.use("/api/articles/:article_id/comments", commentsRouter);
 app.use("/api/comments", commentsRouter);
+app.use("/api/users", usersRouter);
 
 // catch-all for any /api routes not handled above
 app.use("/api", (req, res) => {
