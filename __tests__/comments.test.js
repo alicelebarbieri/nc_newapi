@@ -1,9 +1,10 @@
 const request = require("supertest");
 const app     = require("../app");
 const db      = require("../db/connection");
-const seed    = require("../db/seeds/seed");
+const seed = require("../db/seeds/seed");
+const testData = require("../db/data/test-data");
 
-beforeEach(() => seed());
+beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
 describe("GET /api/articles/:article_id/comments", () => {

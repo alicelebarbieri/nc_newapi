@@ -2,8 +2,12 @@ const {
   convertTimestampToDate
 } = require("../db/seeds/utils");
 
+const db = require("../db/connection");
 const seed = require("../db/seeds/seed");
-beforeEach(() => seed());
+const testData = require("../db/data/test-data");
+
+beforeEach(() => seed(testData));
+afterAll(() => db.end());
 
 describe("convertTimestampToDate", () => {
   test("returns a new object", () => {

@@ -1,8 +1,11 @@
 const request = require("supertest");
-const app = require("../app.js");
+const app = require("../app");
 const db = require("../db/connection");
 const seed = require("../db/seeds/seed");
-beforeEach(() => seed());
+const testData = require("../db/data/test-data");
+
+beforeEach(() => seed(testData));
+afterAll(() => db.end());
 
 describe("GET /api/topics", () => {
   test("200: responds with an array of topic objects", () => {
@@ -19,7 +22,3 @@ describe("GET /api/topics", () => {
       });
   });
 });
-
-afterAll(() => {
-    return db.end();
-  });
