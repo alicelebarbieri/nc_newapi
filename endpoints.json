@@ -10,7 +10,8 @@
     }
   },
   "GET /api/articles": {
-    "description": "Get all articles, sorted by date desc, each with comment_count",
+    "description": "Get all articles, sorted by date desc by default. Accepts queries to sort and order by any valid column.",
+    "queries": ["sort_by", "order"],
     "exampleResponse": {
       "articles": [
         {
