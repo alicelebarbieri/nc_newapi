@@ -11,26 +11,46 @@ exports.selectArticleById = (article_id) => {
     .then(({ rows }) => rows[0]);
 };
 
-exports.selectAllArticles = () => {
-    return db
-      .query(
-        `SELECT 
-           a.author, 
-           a.title, 
-           a.article_id, 
-           a.topic, 
-           a.created_at, 
-           a.votes, 
-           a.article_img_url,
-           COUNT(c.comment_id)::INT AS comment_count
-         FROM articles a
-         LEFT JOIN comments c
-           ON a.article_id = c.article_id
-         GROUP BY a.article_id
-         ORDER BY a.created_at DESC;`
-      )
-      .then(({ rows }) => rows);
-  };
+exports.selectAllArticles = (sort_by = "created_at", order = "desc") => {
+  const validSortColumns = [
+    "title",
+    "topic",
+    "author",
+    "body",
+    "created_at",
+    "votes",
+    "article_id",
+    "article_img_url",
+    "comment_count"
+  ];
+  const validOrder = ["asc", "desc"];
+
+  if (!validSortColumns.includes(sort_by)) {
+    return Promise.reject({ status: 400, msg: "Invalid sort_by column" });
+  }
+
+  if (!validOrder.includes(order)) {
+    return Promise.reject({ status: 400, msg: "Invalid order query" });
+  }
+
+  const queryStr = `
+    SELECT 
+      articles.author,
+      title,
+      articles.article_id,
+      topic,
+      articles.created_at,
+      articles.votes,
+      article_img_url,
+      COUNT(comments.comment_id)::INT AS comment_count
+    FROM articles
+    LEFT JOIN comments ON articles.article_id = comments.article_id
+    GROUP BY articles.article_id
+    ORDER BY ${sort_by} ${order};
+  `;
+
+  return db.query(queryStr).then(({ rows }) => rows);
+};
 
   exports.updateArticleVotesById = (article_id, inc_votes) => {
     if (isNaN(article_id) || typeof inc_votes !== "number") {

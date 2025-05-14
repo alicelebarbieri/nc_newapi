@@ -19,14 +19,16 @@ exports.getArticleById = (req, res, next) => {
 };
 
 exports.getAllArticles = (req, res, next) => {
-  selectAllArticles()
-    .then((articles) => {
-      res.status(200).send({ articles });
-    })
-    .catch(next);
+  const { sort_by, order } = req.query;
+
+  selectAllArticles(sort_by, order)
+    .then((articles) => res.status(200).send({ articles }))
+    .catch((err) => {
+      if (err.status) return res.status(err.status).send({ msg: err.msg });
+      next(err);
+    });
 };
 
-//branch 6 --- 
 
 exports.patchArticleById = (req, res, next) => {
   const { article_id } = req.params;
