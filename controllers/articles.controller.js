@@ -1,4 +1,4 @@
-const { selectArticleById, selectAllArticles, updateArticleVotes  } = require("../models/articles.model");
+const { selectArticleById, selectAllArticles, updateArticleVotes, checkTopicExists  } = require("../models/articles.model");
 
 exports.getArticleById = (req, res, next) => {
   const { article_id } = req.params;
@@ -19,10 +19,15 @@ exports.getArticleById = (req, res, next) => {
 };
 
 exports.getAllArticles = (req, res, next) => {
-  const { sort_by, order } = req.query;
+  const { sort_by, order, topic } = req.query;
 
-  selectAllArticles(sort_by, order)
-    .then((articles) => res.status(200).send({ articles }))
+  const topicCheck = topic ? checkTopicExists(topic) : Promise.resolve();
+
+  topicCheck
+    .then(() => selectAllArticles(sort_by, order, topic))
+    .then((articles) => {
+      res.status(200).send({ articles });
+    })
     .catch((err) => {
       if (err.status) return res.status(err.status).send({ msg: err.msg });
       next(err);

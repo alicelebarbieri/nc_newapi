@@ -42,7 +42,7 @@ describe("GET /api/articles with sorting", () => {
       .get("/api/articles?order=sideways")
       .expect(400)
       .then(({ body }) => {
-        expect(body.msg).toBe("Invalid order query");
+        expect(body.msg).toBe("Invalid order value");
       });
   });
 });
