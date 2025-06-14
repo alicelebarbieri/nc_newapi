@@ -91,37 +91,65 @@ Returns all registered users.
 
 ---
 
-## 🚀 Setup Instructions (Locally)
+## 🚀 Getting Started Locally
 
-Clone the repo and install dependencies:
-git clone https://github.com/alicelebarbieri/nc_newapi.git
-cd nc_newapi
+```bash
+git clone https://github.com/AliceleBarbieri/be-nc-news.git
+cd be-nc-news
 npm install
+```
 
-### Set up your environment:
-Create the following environment files:
-.env.development
-.env.test
-.env.production (if needed for deployment)
-
-Add the appropriate PostgreSQL config to each file:
+Set up your local `.env.development` and `.env.test` files in the root folder:
+```
 PGDATABASE=nc_news
-PGDATABASE=your_database_name
-DATABASE_URL=Render URL
+PGDATABASE_TEST=nc_news_test
+```
 
-### Seed the database:
+Then create and seed the databases:
+```bash
 npm run setup-dbs
-npm run seed-dev
+npm run seed
+```
 
-
-### Run tests:
+Run the tests:
+```bash
 npm test
+```
 
-
-### Start the server locally:
+Run the server locally:
+```bash
 npm start
+```
 
 ---
+
+## 🌍 Production Setup
+
+- Hosted via [Render](https://render.com)
+- Production database managed by [Supabase](https://supabase.com)
+
+Environment variables used:
+```
+NODE_ENV=production
+DATABASE_URL=<your_supabase_postgres_connection_url>
+```
+
+To seed production database:
+```bash
+npm run seed-prod
+```
+
+---
+
+## 📦 Tech Requirements
+
+- Node.js: v18.x or higher
+- PostgreSQL: v12 or higher
+
+---
+
+## 👩‍💻 Author
+**Alicele Barbieri**
 
 ## 📫 Contact
 Feel free to get in touch via GitHub: [@alicelebarbieri](https://github.com/alicelebarbieri)
