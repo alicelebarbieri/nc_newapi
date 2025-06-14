@@ -1,4 +1,9 @@
-const { selectArticleById, selectAllArticles, updateArticleVotes, checkTopicExists  } = require("../models/articles.model");
+const { selectArticleById, 
+        selectAllArticles, 
+        updateArticleVotes, 
+        checkTopicExists, 
+        insertArticle
+      } = require("../models/articles.model");
 
 exports.getArticleById = (req, res, next) => {
   const { article_id } = req.params;
@@ -55,4 +60,14 @@ exports.patchArticleById = (req, res, next) => {
       if (err.status) return res.status(err.status).send({ msg: err.msg });
       next(err);
     });
+};
+
+exports.postArticle = (req, res, next) => {
+  const articleData = req.body;
+
+  insertArticle(articleData)
+    .then((article) => {
+      res.status(201).send({ article });
+    })
+    .catch(next);
 };
