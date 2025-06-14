@@ -1,22 +1,28 @@
 const { Pool } = require("pg");
+const path = require("path");
 
-// Set environment (development, test, etc.)
+// 1. (default: development)
 const ENV = process.env.NODE_ENV || "development";
 
-// Load the correct .env file (e.g. .env.test or .env.development)
+// 2. load vars from correct path
 require("dotenv").config({
-  path: `${__dirname}/../.env.${ENV}`,
+  path: path.resolve(__dirname, `../.env.${ENV}`),
 });
 
-// Safety check
+console.log("DATABASE_URL:", process.env.DATABASE_URL);
+
+// 3. ensure var settings
 if (!process.env.PGDATABASE && !process.env.DATABASE_URL) {
   throw new Error("PGDATABASE or DATABASE_URL not set");
 }
 
-// Set up the database config object
+// 4. set connection pool 
 const config =
-  process.env.DATABASE_URL // for production on Heroku, etc.
-    ? { connectionString: process.env.DATABASE_URL }
+  ENV === "production"
+    ? {
+        connectionString: process.env.DATABASE_URL,
+        max: 2,
+      }
     : {
         user: process.env.PGUSER,
         host: process.env.PGHOST,
@@ -25,9 +31,11 @@ const config =
         port: process.env.PGPORT,
       };
 
-// Create the pool
+// 5. create connection pool and export
 const db = new Pool(config);
 
-console.log(`Connected to ${process.env.PGDATABASE}`);
+if (ENV !== "production") {
+  console.log(`Connected to ${process.env.PGDATABASE}`);
+}
 
 module.exports = db;

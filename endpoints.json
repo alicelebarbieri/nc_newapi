@@ -112,6 +112,21 @@
         }
       ]
     }
+  },
+  "GET /api/users/:username": {
+    "description": "Returns a single user object by username",
+    "parameters": {
+      "path": {
+        "username": "string"
+      }
+    },
+    "exampleResponse": {
+      "user": {
+        "username": "butter_bridge",
+        "name": "Jonny",
+        "avatar_url": "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg"
+      }
+    }
   }
  
 }
