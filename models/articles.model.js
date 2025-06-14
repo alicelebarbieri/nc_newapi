@@ -108,3 +108,36 @@ exports.updateArticleVotes = async (article_id, inc_votes) => {
 
   return rows[0];
 };
+
+exports.insertArticle = (articleData) => {
+  const { author, title, body, topic, article_img_url } = articleData;
+  if (!author || !title || !body || !topic) {
+    return Promise.reject({ status: 400, msg: "Missing required fields" });
+  }
+
+  const imgUrl = article_img_url ||
+    "https://images.unsplash.com/photo-1581091870622-2b4b9e1f1d5c";
+
+  const query = `
+    INSERT INTO articles
+    (author, title, body, topic, article_img_url)
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING *;
+  `;
+
+  const values = [author, title, body, topic, imgUrl];
+
+  return db.query(query, values).then(({ rows }) => {
+    const insertedArticle = rows[0];
+
+    return db
+      .query(
+        `SELECT COUNT(*)::INT AS comment_count FROM comments WHERE article_id = $1;`,
+        [insertedArticle.article_id]
+      )
+      .then(({ rows }) => {
+        insertedArticle.comment_count = rows[0].comment_count;
+        return insertedArticle;
+      });
+  });
+};
