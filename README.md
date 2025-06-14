@@ -1,44 +1,127 @@
-Configuration
-This project requires environment variables that are not included in the repository (they’re excluded via .gitignore using .env.*). After cloning the repository, follow these steps to set up your local environment:
+# 📰 AliceleBlogAPI - NC News Backend
 
-1. Create the Environment Files
-You must create two files in the root directory of the project:
+AliceleAPI is a RESTful API for a news application where users can browse articles, filter by topic, comment on articles and manage user data. Built using Node.js, Express, PostgreSQL and hosted via Render with a Supabase-managed database.
 
-.env.development – for connecting to the development database
+---
 
-.env.test – for connecting to the test database
+## 🌐 Hosted URL
 
-Note: These files are not pushed to GitHub, so you will need to set them up manually.
+> [[https://aliceleapi.onrender.com/api](https://aliceleapi.onrender.com/api)](https://aliceleblog-api.onrender.com)
 
-2. Add the Required Variables
-In each file, add the following entry:
+Use the `/api` endpoint to see all available routes and their structure.
 
+---
+
+## 📚 Available Endpoints
+
+### `GET /api`
+Returns a JSON with all available API endpoints.
+
+### `GET /api/topics`
+Returns all topics.
+```json
+{
+  "topics": [
+    { "slug": "football", "description": "Footie!" }
+  ]
+}
+```
+
+### `GET /api/articles`
+Returns all articles. Supports:
+- `sort_by` (any valid column)
+- `order` (asc/desc)
+- `topic` (filter by topic)
+
+```json
+{
+  "articles": [
+    {
+      "author": "butter_bridge",
+      "title": "Seafood substitutions are increasing",
+      "article_id": 1,
+      "topic": "cooking",
+      "created_at": "2020-11-07T07:44:00.000Z",
+      "votes": 0,
+      "article_img_url": "https://example.com/img.png",
+      "comment_count": 10
+    }
+  ]
+}
+```
+
+### `GET /api/articles/:article_id`
+Returns a single article including `comment_count`.
+
+### `GET /api/articles/:article_id/comments`
+Returns all comments for the given article.
+
+### `POST /api/articles/:article_id/comments`
+Posts a comment to the article.
+```json
+{
+  "username": "butter_bridge",
+  "body": "Great article!"
+}
+```
+
+### `PATCH /api/articles/:article_id`
+Updates the vote count of an article.
+```json
+{
+  "inc_votes": 1
+}
+```
+
+### `DELETE /api/comments/:comment_id`
+Deletes a comment by ID. Returns `204 No Content`.
+
+### `GET /api/users`
+Returns all registered users.
+
+---
+
+
+## 🛠 Tech Stack
+- Node.js
+- Express
+- PostgreSQL
+- Supabase (hosted database)
+- Render (hosted backend)
+
+---
+
+## 🚀 Setup Instructions (Locally)
+
+Clone the repo and install dependencies:
+git clone https://github.com/alicelebarbieri/nc_newapi.git
+cd nc_newapi
+npm install
+
+### Set up your environment:
+Create the following environment files:
 .env.development
-env
-Copy
-PGDATABASE=nc_news
-This variable tells the project to connect to the nc_news database for development purposes.
-
 .env.test
-env
-Copy
-PGDATABASE=nc_news_test
-This variable tells the project to connect to the nc_news_test database when running tests.
+.env.production (if needed for deployment)
 
-3. Verify Your Setup
-After creating the files and adding the variables, run:
+Add the appropriate PostgreSQL config to each file:
+PGDATABASE=nc_news
+PGDATABASE=your_database_name
+DATABASE_URL=Render URL
 
-For testing the seed function:
-
-bash
-Copy
-npm run test-seed
-You should see logs confirming a connection to the test database (nc_news_test).
-
-For seeding the development database:
-
-bash
-Copy
+### Seed the database:
+npm run setup-dbs
 npm run seed-dev
-This will run the seed script using the development data and confirm a connection to nc_news.
 
+
+### Run tests:
+npm test
+
+
+### Start the server locally:
+npm start
+
+---
+
+## 📫 Contact
+Feel free to get in touch via GitHub: [@alicelebarbieri](https://github.com/alicelebarbieri)
