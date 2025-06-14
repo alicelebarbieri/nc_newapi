@@ -10,8 +10,8 @@
     }
   },
   "GET /api/articles": {
-    "description": "Get all articles, sorted by date desc by default. Accepts queries to sort and order by any valid column.",
-    "queries": ["sort_by", "order"],
+    "description": "Get all articles. Supports filtering by topic and sorting by any valid column. Defaults to sorting by date in descending order.",
+    "queries": ["sort_by", "order", "topic"],
     "exampleResponse": {
       "articles": [
         {
@@ -36,14 +36,15 @@
     },
     "exampleResponse": {
       "article": {
-        "author": "butter_bridge",
-        "title": "Living in the shadow of a great man",
         "article_id": 1,
-        "body": "I find this existence challenging",
-        "topic": "coding",
+        "author": "butter_bridge",
+        "title": "Seafood substitutions are increasing",
+        "body": "some gifs",
+        "topic": "cooking",
         "created_at": "2020-11-07T07:44:00.000Z",
-        "votes": 100,
-        "article_img_url": "https://example.com/img.png"
+        "votes": 0,
+        "article_img_url": "https://example.com/img.png",
+        "comment_count": 10
       }
     }
   },
