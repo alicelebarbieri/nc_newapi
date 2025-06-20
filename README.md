@@ -6,9 +6,7 @@ AliceleAPI is a RESTful API for a news application where users can browse articl
 
 ## 🌐 Hosted URL
 
-> [[https://aliceleapi.onrender.com/api](https://aliceleapi.onrender.com/api)](https://aliceleblog-api.onrender.com)
-
-Use the `/api` endpoint to see all available routes and their structure.
+[Access the API here](https://aliceleblog-api.onrender.com/api)
 
 ---
 
