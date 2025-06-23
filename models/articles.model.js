@@ -56,7 +56,7 @@ exports.selectAllArticles = (sort_by = "created_at", order = "desc", topic) => {
 
   queryStr += `
     GROUP BY articles.article_id
-    ORDER BY ${sort_by} ${order};
+    ORDER BY ${sort_by === "comment_count" ? "COUNT(comments.comment_id)" : sort_by} ${order};
   `;
 
   return db.query(queryStr, queryParams).then(({ rows }) => rows);
